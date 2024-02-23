@@ -9,6 +9,7 @@ const q1 = $(".q-1"),
   q8 = $(".q-8"),
   q9 = $(".q-9"),
   q10 = $(".q-10"),
+  loader = document.querySelectorAll(".loader"),
   btnNodeList = $(".btn-func"),
   arrayOfQuestions = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10],
   result1 = $(".result-1"),
@@ -18,6 +19,21 @@ const q1 = $(".q-1"),
   resultArray = [result1, result2, result3];
 
 resultArray.forEach(result => result.hide());
+
+
+// Keep track of the current width of the loader
+let currentLoaderWidth = 0;
+
+// Function to implement the loader
+const loaderHandler = (loaderHolder, width) => {
+  width += 10;
+  currentLoaderWidth = width;
+  loaderHolder.forEach(loader => {
+    loader.style.width = `${width}%`;
+  });
+};
+
+
 
 const outputHandling = () => {
   if (q1.attr('value') === 'true' && q2.attr('value') === 'true' && q4.attr('value') === 'true' && q6.attr('value') === 'true' && q8.attr('value') === 'true' && q9.attr('value') === 'true') {
@@ -36,9 +52,11 @@ const screening = (array, list, value) => {
     question.hide();
   });
   array[0].show();
-  // Increment value on click
 
+  // Increment value on click
   list.click(function() {
+    // Implement the loader
+    loaderHandler(loader, currentLoaderWidth);
     value += 1;
     const clickedBtn = $(this);
     const question = clickedBtn.closest('.row');
